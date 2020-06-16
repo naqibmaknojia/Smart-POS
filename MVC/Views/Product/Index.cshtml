@@ -1,0 +1,99 @@
+﻿@model IEnumerable<MVC.Models.mvcProductModel>
+
+@{
+    ViewBag.Title = "Product List";
+}
+<div class="container-fluid">
+
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="@Url.Action("AddOrEdit")" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-user-plus fa-sm text-white-50"></i> Add Product</a>
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow-lg my-5">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">All Products</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProdId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProdName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProdCatageory)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProdQuantity)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProdDate)
+                            </th>
+                            <th>Action</th>
+                        </tr>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdCatageory)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdQuantity)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProdDate)
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("AddOrEdit","Product",new {id=item.ProdId})" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i>
+
+                                    </a>
+                                    <button onclick="Delete(@item.ProdId)" class="btn btn-danger">
+                                        <i class="fas fa-trash"></i>
+
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script>
+        function message() {
+            var successmessage='@TempData["SuccessMessage"]'
+            var alertmessage = '@TempData["AlertMessage"]'
+            if (successmessage != '') {
+                alertify.success(successmessage);
+            }
+            else if(alertmessage!=''){
+                alertify.error(alertmessage);
+            }
+        }
+        function Delete(id) {
+            alertify.confirm('Employee','Are You Sure to Delete this Product Record?',function(){
+                window.location.href = '@Url.Action("Delete","Product")/' + id;
+        },null);
+
+        }
+
+    </script>
+
+}
